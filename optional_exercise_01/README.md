@@ -1,5 +1,5 @@
-# Thermistor Libary
-This exercise is about developing a small libary for a thermistor.
+# Thermistor Libary for mbed OS
+This exercise is about developing a small [mbed OS](https://os.mbed.com/) libary for a thermistor.
 It will support celsius and kelvin output as well. 
 
 ## Documentation
