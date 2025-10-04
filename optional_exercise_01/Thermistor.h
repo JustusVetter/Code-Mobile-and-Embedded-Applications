@@ -12,7 +12,7 @@ class Thermistor {
 public:
  Thermistor(PinName pin);
  float read();
- void ioctl_changeVoltage(float rb);
+ void ioctl_setVoltage(float rb);
  
  // default is Celsius
  void ioctl_enableKelvin(bool enableKelvin);

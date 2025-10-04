@@ -13,7 +13,7 @@ float Thermistor::read(){
     return 0.00;
 }
 
-void Thermistor::ioctl_changeVoltage(float rb){
+void Thermistor::ioctl_setVoltage(float rb){
     _rb = rb;
 }
 
