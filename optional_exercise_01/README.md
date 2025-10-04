@@ -4,24 +4,24 @@ It will support celsius and kelvin output as well.
 
 ## Documentation
 
-#### Constructor
-#####Thermistor(PinName pin)
+### Constructor
+####Thermistor(PinName pin)
 
 Example:
 ```cpp
 myThermistor = Thermistor(A0)
 ```
-#### Methods
+### Methods
 
-#####float read()
+####float read()
 
 Example:
 ```cpp
 temprature = myThermistor.read()
 ```
-#####void ioctl_setVoltage()
+####void ioctl_setVoltage()
 
-#####void ioctl_defaultDelay(int defaultDelay)
+####void ioctl_defaultDelay(int defaultDelay)
 
-#####void ioctl_enableKelvin(bool enableKelvin)
+####void ioctl_enableKelvin(bool enableKelvin)
 
