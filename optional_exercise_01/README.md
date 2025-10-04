@@ -1,2 +1,23 @@
-# APLICACIONS-M-BILS-I-ENCASTADES
-code for Mobile and Embedded Application classes at URV
+# Thermistor Libary
+This exercise is about developing a small libary for a thermistor.
+It will support celsius and kelvin output as well. 
+
+## Documentation
+
+#### Constructor
+**Thermistor(PinName pin)**
+
+Example:
+```myThermistor = Thermistor(A0)```
+#### Methods
+
+**float read()**
+
+Example:
+```temprature = myThermistor.read()```
+**void ioctl_setVoltage()**
+
+**void ioctl_defaultDelay(int defaultDelay)**
+
+**void ioctl_enableKelvin(bool enableKelvin)**
+
