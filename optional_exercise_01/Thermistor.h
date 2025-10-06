@@ -26,7 +26,9 @@ private:
  float _rb = 3.3;
  int _rz = 100000;
  bool _enableKelvin = false;
- 
+ float _tz = 298.15;
+ const float KONVERT_KELVIN = 273.15;
+
  int _defaultDelay = 500; 
 };
 

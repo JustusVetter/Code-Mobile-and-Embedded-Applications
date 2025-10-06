@@ -1,30 +1,38 @@
 #include "mbed-os/mbed.h"
 #include <cstdio>
-#include <cmath>
+#include <string>
+#include "Thermistor.h"
 
 AnalogIn pin(A0);
 
+void test_thermistor();
 
 
-// main() runs in its own thread in the OS
 int main()
 {
-    float rb = 3.3;
-    int rz = 100000;
-    int beta = 4250000;
-    
-    
-    float tz = 298.15;
+    test_thermistor();
+}
 
-    ThisThread::sleep_for(500);
-    float f =  pin.read();
-    printf("Inp: %f \n", f);
-    float rTherm = rb * ((1.0 / f) - 1);
-    printf("Therm: %f \n", rTherm);
-    float tKelvin = 1 / ((log(rTherm/rz)) / beta + (1/tz));
-    float celsius = tKelvin - 273.15;
-    //printf("normalized: 0x%04X \n", pin.read_u16());
-    printf("Kelvin: %f \n", tKelvin );
-    printf("Celsius: %f \n", celsius);
+void test_thermistor(){
+
+    Thermistor my_thermistor(A1);
+    printf("Celsius, 3V: %.2f \n", my_thermistor.read());
+
+    my_thermistor.ioctl_enableKelvin(true);
+    printf("Kelvin, 3V: %.2f \n\n",my_thermistor.read());
+    
+
+    my_thermistor.ioctl_setVoltage(5.5);
+    my_thermistor.ioctl_enableKelvin(false);
+    printf("Celsius, 5.5 V: %.2f \n", my_thermistor.read());
+
+    my_thermistor.ioctl_enableKelvin(true);
+    printf("Kelvin, 5.5 V: %.2f \n\n", my_thermistor.read());
+
+    //Reset
+    my_thermistor.ioctl_setVoltage(3);
+    my_thermistor.ioctl_enableKelvin(false);
+    printf("standard settings: %.2f \n", my_thermistor.read());
+
 }
 
