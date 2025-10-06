@@ -17,7 +17,7 @@ Thermistor myThermistor(A0);
 
 Example:
 ```cpp
-temprature = myThermistor.read();
+float temprature = myThermistor.read();
 ```
 #### void ioctl_setVoltage()
 
