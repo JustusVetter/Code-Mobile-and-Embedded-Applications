@@ -9,7 +9,7 @@ It will support celsius and kelvin output as well.
 
 Example:
 ```cpp
-myThermistor = Thermistor(A0)
+Thermistor myThermistor(A0);
 ```
 ### Methods
 
@@ -17,7 +17,7 @@ myThermistor = Thermistor(A0)
 
 Example:
 ```cpp
-temprature = myThermistor.read()
+temprature = myThermistor.read();
 ```
 #### void ioctl_setVoltage()
 
