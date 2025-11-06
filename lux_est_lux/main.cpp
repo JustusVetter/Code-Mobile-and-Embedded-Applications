@@ -1,28 +1,27 @@
 #include "mbed.h"
 #include <string>
 #include <cstdio>
+#include "LightSensor.h"
 
-AnalogIn in = AnalogIn(A0);
-float vRef = 3.3;
-float luxRel = 500;
-float rL = 10000;
-float vOut = 1.0;
+#include "ThisThread.h"
+
+void test_lightsensor();
 
 // main() runs in its own thread in the OS
 int main()
 {   
-    while (true) {
-        float inward = in.read();
-        ThisThread::sleep_for(1s);
-        printf("%.2f \n", inward);
-        float first = (vRef * luxRel) * (inward * 3.3);
-        printf("First: %.2f \n", first);
-        float second = first - luxRel;
-        printf("Second: %.2f \n", second);
-        float kLux = second/rL;
-        printf("K_Lux: %.2f \n", kLux);
-        float lux = kLux * 1000;
-        printf("Lux: %.2f \n", lux);
+    test_lightsensor();
+}
+
+void test_lightsensor(){
+    LightSensor myLightSensor(A0);
+    while(true){
+        ThisThread::sleep_for(950ms);
+        float read = myLightSensor.read();
+        printf("Standard lux: %.2f \n", read);
+        myLightSensor.ioctl_kilolux(true);
+        read = myLightSensor.read();
+        printf("Kilolux: %.2f \n", read);
     }
 }
 
