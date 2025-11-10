@@ -5,27 +5,21 @@
 
 
 // main() runs in its own thread in the OS
+#include "SoundSensor.h"
+#include "mbed.h"
+#include <string>
+#include <cstdio>
 
-AnalogIn in(A1);
+#include "ThisThread.h"
 
+SoundSensor sound(A0);
 int main()
 {
     while (true) {
         
         ThisThread::sleep_for(1s);
         
-        float spl = 0;
-        for (int i = 0; i <100; i++) {
-            float input = in.read();
-            float input_volt = 5.0f * input;
-            float nspl = (94 + (20 * log10f(input_volt / 0.0316f)));
-            if(nspl > 0){
-            spl = spl + nspl;
-            //ThisThread::sleep_for();
-            }
-        }
-
-        spl = spl / 100.0f;
+        float spl = sound.read();
         printf("spl: %0.2f\n",spl);
     }
 }
