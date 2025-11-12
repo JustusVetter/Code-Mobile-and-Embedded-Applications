@@ -25,6 +25,7 @@ _stateTable {
 // will run on timer interrupt
 void StateTable::next(){
     if(_isButtonPressed){
+        _isButtonPressed = false;
         _current = _stateTable[_current.buttonState];
     } else {
         _current = _stateTable[_current.interuptState];
