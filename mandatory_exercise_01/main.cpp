@@ -13,6 +13,7 @@ StateTable(controlFlow);
 
 Thermistor myThermistor(A0);
 LightSensor myLightSensor(A1);
+SoundSensor mySoundSensor(A3);
 
 
 bool timer = false;
@@ -83,5 +84,7 @@ void runLightSensor(){
 }
 
 void runSoundSensor(){
-    printf("Bavaria Ipsum\n");
+    float sound = mySoundSensor.read();
+    bool goodSound = sound < 50.0f;
+    printf("current noise: %.0f db Awarness: %d\n", sound, goodSound);
 }
