@@ -1,10 +1,15 @@
 #include "mbed.h"
-#include "Display.h"
+
+#include <cstdio>
+
+Grove_LCD_RGB_Backlight lcd(D14, D15); 
 
 // main() runs in its own thread in the OS
 int main()
 {
-    Display lcd(D14, D15);
-    lcd.setRGB(255, 0, 0);
+    while(true){
+        printf("uawwurwuaw")
+    }
+    //lcd.displayOn();
 }
 
