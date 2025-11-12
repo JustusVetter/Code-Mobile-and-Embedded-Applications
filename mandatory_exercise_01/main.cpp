@@ -3,10 +3,17 @@
 #include "mbed.h"
 #include "StateTable.h"
 #include <cstdio>
+#include "Thermistor.h"
+#include "SoundSensor.h"
+#include "LightSensor.h"
 
 InterruptIn button(D4);
 Ticker timer_interrupt;
 StateTable(controlFlow);
+
+Thermistor myThermistor(A0);
+LightSensor myLightSensor(A1);
+
 
 bool timer = false;
 bool buttonPressed = false;
@@ -23,6 +30,17 @@ void timerISR(){
     
 }
 
+void runThermistor();
+void runLightSensor();
+void runSoundSensor();
+
+typedef void (*ActionFunc)();
+
+ActionFunc actions[] = {
+    runThermistor, runLightSensor, runSoundSensor
+};
+
+
 // main() runs in its own thread in the OS
 int main()
 {
@@ -34,7 +52,7 @@ int main()
     while (true) {
         if(buttonPressed ==true){
             buttonPressed = false;
-            printf("Gilgamesh kills hubmaba\n");
+            printf("Gilgamesh kills humbaba\n");
         }
         if (timer == true) {
             timer=false;
@@ -42,7 +60,28 @@ int main()
             controlFlow.next();
             int nState = controlFlow.getCurrent();
             printf("%d -> %d\n",pState,nState);
+
+            if (nState < 3){
+            actions[nState]();
+            }
         }
     }
 }
 
+void runThermistor(){
+    float temp = myThermistor.read();
+    bool goodTempreture = 20 < temp && temp < 25;
+    
+    printf("current tempreture: %.1f C Awarness: %d\n", temp, goodTempreture);
+}
+
+void runLightSensor(){
+    float light = myLightSensor.read();
+    bool goodLight = 300 < light && light < 500;
+    
+    printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
+}
+
+void runSoundSensor(){
+    printf("Bavaria Ipsum\n");
+}
