@@ -1,21 +1,31 @@
 /*
     Author: Dávid, Justus
     Date: 12.11.25
+
+    Notes:
+    There are several code smells and a bad design. 
+    It would have been better if we would have get all the date once and then display one by one.
+    
 */
 #include "AnalogIn.h"
 #include "DigitalOut.h"
 #include "InterruptIn.h"
 #include "PinNames.h"
+#include "ThisThread.h"
 #include "mbed.h"
 #include "StateTable.h"
 #include <cstdio>
 #include "Thermistor.h"
 #include "SoundSensor.h"
 #include "LightSensor.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 DigitalOut tempLed(LED1);
 DigitalOut lightLed(LED2);
 DigitalOut soundLed(LED3);
+
+Grove_LCD_RGB_Backlight display(D14,D15);
+int display_change_counter = 0;
 
 // The solution is very bad we should change it later
 // variables for calculate igf values are increasing or decreasing
@@ -85,6 +95,8 @@ ActionFunc actions[] = {
 // main() runs in its own thread in the OS
 int main()
 {
+    //settings
+    //myLightSensor.ioctl_set_five_volt(true);
     button.rise(&buttonISR);
 
     // set timer on 1 second => user will have to wait 1 second until the system react (maybe to much)
@@ -129,6 +141,19 @@ void display_delta(){
 }
 
 
+void output(char sentence[], float number){
+    
+        display.clear();
+        ThisThread::sleep_for(2ms);
+        char buffer[16];
+        display.print(sentence);
+        display.writech(' ');
+        sprintf(buffer, "%.0f", number);
+        display.print(buffer);
+    
+}
+
+
 void runThermistor(){
     display_delta();
     float temp = myThermistor.read();
@@ -143,7 +168,10 @@ void runThermistor(){
         comp_temp = temp;
 
     }
-
+    char sentence[] = "temp:";
+    if(display_change_counter==0){
+    output(sentence,temp);
+    }
     printf("current tempreture: %.1f C Awarness: %d\n", temp, goodTempreture);
 }
 
@@ -162,7 +190,11 @@ void runLightSensor(){
         comp_light = light;
 
     }
-
+   
+    char sentence[] = "light:";
+    if(display_change_counter==1){
+    output(sentence,light);
+    }
     printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
 }
 
@@ -181,9 +213,16 @@ void runSoundSensor(){
         comp_sound = sound;
 
     }
-
+    if(display_change_counter==2){
+    char sentence[] = "sound:";
+    output(sentence,sound);
+    }
     delta_check_counter++;
-    delta_check_counter = delta_check_counter % 5;
+    delta_check_counter = delta_check_counter % 4;
+
+// There is a much better solution but „keep it simple stupid“
+    display_change_counter++;
+    display_change_counter = display_change_counter % 4;
 }
 
 void setTempLow(){
@@ -222,6 +261,7 @@ void setSoundBarrier(){
     sound_barier = mid_barrier - 40 + 80 * factor;
     printf("sound_barrier: %.0f\n", sound_barier);
 }
+
 
 
 

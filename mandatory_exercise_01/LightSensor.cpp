@@ -6,12 +6,12 @@ LightSensor::LightSensor(PinName pin): _pin(pin){
 
 }
 
-float LightSensor::read(){
-    //response time between 20 and 30ms => 50ms in this library
-    ThisThread::sleep_for(50ms);
-    float inward = _pin.read();
 
-    float first = (_vRef * _luxRel) * (inward * 3.3);
+float LightSensor::read(){
+    //response time between 20 and 30ms => 30ms in this library
+    float inward = _pin.read();
+    //ThisThread::sleep_for(30ms);
+    float first = (_vRef * _luxRel) * (inward * _voltage);
     float second = first - _luxRel;
     
     float lux = second/_rL;
@@ -28,4 +28,14 @@ void LightSensor::ioctl_kilolux(bool enableLux){
 // => method for balance it 
 void LightSensor::ioctl_refine_luxrel(float newLuxRel){
     _luxRel = newLuxRel;
+}
+
+void LightSensor::ioctl_set_five_volt(bool enableFiveVolt){
+    if(enableFiveVolt){
+        _voltage= 5;
+        _vRef= 5;
+    }else {
+        _voltage = 3.3;
+        _vRef = 3.3;
+    }
 }
