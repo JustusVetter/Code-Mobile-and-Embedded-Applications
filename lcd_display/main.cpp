@@ -9,7 +9,10 @@ int main()
 {
     
     while(true){
-        lcd.writech('f');
+        char abc[] = "Gilgamesh";
+        lcd.print(abc);
+
+        lcd.setRGB(255,0,0);
         ThisThread::sleep_for(2s);
     }
 }
