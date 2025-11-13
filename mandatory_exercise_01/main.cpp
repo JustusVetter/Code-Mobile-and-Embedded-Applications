@@ -3,6 +3,7 @@
     Date: 12.11.25
 */
 #include "AnalogIn.h"
+#include "DigitalOut.h"
 #include "InterruptIn.h"
 #include "PinNames.h"
 #include "mbed.h"
@@ -12,6 +13,19 @@
 #include "SoundSensor.h"
 #include "LightSensor.h"
 
+DigitalOut tempLed(LED1);
+DigitalOut lightLed(LED2);
+DigitalOut soundLed(LED3);
+
+// The solution is very bad we should change it later
+// variables for calculate igf values are increasing or decreasing
+int delta_check_counter = 0;
+float comp_temp;
+float comp_light;
+float comp_sound;
+bool isTempIncreasing = true;
+bool isLightIncreasing = true;
+bool isSoundIncreasing = true;
 
 AnalogIn potentiometer(A2);
 
@@ -96,24 +110,80 @@ int main()
     }
 }
 
+void display_delta(){
+    if(isTempIncreasing){
+            tempLed = 1;
+    }else {
+        tempLed = !tempLed;
+    }
+    if(isLightIncreasing){
+            lightLed = 1;
+    }else {
+        lightLed = !lightLed;
+    }
+    if(isSoundIncreasing){
+            soundLed = 1;
+    }else {
+        soundLed = !soundLed;
+    }
+}
+
+
 void runThermistor(){
+    display_delta();
     float temp = myThermistor.read();
     bool goodTempreture = min_temp <= temp && temp <= max_temp;
-    
+    if (delta_check_counter == 0){
+        if(comp_temp < temp){
+            isTempIncreasing = true;
+        }else {
+            isTempIncreasing = false;
+        }
+
+        comp_temp = temp;
+
+    }
+
     printf("current tempreture: %.1f C Awarness: %d\n", temp, goodTempreture);
 }
 
 void runLightSensor(){
+    display_delta();
+    
     float light = myLightSensor.read();
     bool goodLight = min_light <= light && light <= max_light;
-    
+    if (delta_check_counter == 0){
+        if(comp_light < light){
+            isLightIncreasing = true;
+        }else {
+            isLightIncreasing = false;
+        }
+
+        comp_light = light;
+
+    }
+
     printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
 }
 
 void runSoundSensor(){
+    display_delta();
     float sound = mySoundSensor.read();
     bool goodSound = sound <= sound_barier;
     printf("current noise: %.0f db Awarness: %d\n", sound, goodSound);
+    if (delta_check_counter == 0){
+        if(comp_sound < sound){
+            isSoundIncreasing = true;
+        }else {
+            isSoundIncreasing = false;
+        }
+
+        comp_sound = sound;
+
+    }
+
+    delta_check_counter++;
+    delta_check_counter = delta_check_counter % 5;
 }
 
 void setTempLow(){
@@ -152,3 +222,7 @@ void setSoundBarrier(){
     sound_barier = mid_barrier - 40 + 80 * factor;
     printf("sound_barrier: %.0f\n", sound_barier);
 }
+
+
+
+
