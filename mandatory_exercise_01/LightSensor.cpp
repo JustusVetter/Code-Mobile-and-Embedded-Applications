@@ -10,7 +10,7 @@ LightSensor::LightSensor(PinName pin): _pin(pin){
 float LightSensor::read(){
     //response time between 20 and 30ms => 30ms in this library
     float inward = _pin.read();
-    //ThisThread::sleep_for(30ms);
+    ThisThread::sleep_for(30ms);
     float first = (_vRef * _luxRel) * (inward * _voltage);
     float second = first - _luxRel;
     
