@@ -20,6 +20,7 @@ float Thermistor::read(){
         result = tKelvin;
     }else {
         result = tKelvin - KONVERT_KELVIN;
+        result = result/2;
     }
     return result;
 }
