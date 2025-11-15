@@ -10,8 +10,14 @@ The user interface of the embedded system consist of the followin parts:
  - 1x Potentiometer
 
 ### LCD Display
+The LCD Display is the most important part of the user interface of this system. In generally it is communicating two two different domains with the user. Firstly the Measures and the interpretation of this measures, and secondly the setting menue for the ranges of the variables.
 #### Measures
-The LCD Display is displaying the value measured by the three sensors one after another. The different values will be displayed as an integer numbers. The  
+The LCD Display is displaying the value measured by the three sensors one after another. The different values will be displayed as an integer numbers and follow a short cut for the variable. The shortcuts and the longform of this shorts cuts are displayed in the table below. The measurements (_db_,_lux_,_C_) will not be displayed beside the numbers because they are all in their standard form and well interpretable by the user.
+|long form|short form|
+|---------|----------|
+|temperature|temp|
+|sound|sound|
+|light|light| 
 
 Furthermore it is displaying if the at the moment presented value needs to be changed and in which direction it needs to be changed. This is done by the color of the background of the LCD Display. The colors and their meaning corresponding the different measurement variables are displayed in the following table.
 |variable|color|(decrease/increase)|
@@ -22,10 +28,36 @@ Furthermore it is displaying if the at the moment presented value needs to be ch
 |light|blue|increase|
 |sound|red|decrease|
 #### Setting Menue
+The Setting Menue is displaying the max and min value or the barrier in the case of sound for every measurement. Thesebarriers can be changes in a specific range which was selected by us. The following ranges are possible:
+
+|barrier|range|
+|-------|-----|
+|min temp|15-25|
+|max temp|25-35|
+|min light|200-400|
+|max light|400-600|
+|sound barrier|40-120|
+  
 ### LEDs
+```
+may need changement
+```
 Beside of the backlight of the LCD Display the buttons are also providing the user with the information how the temprature, light and the sound should be changed to keep a comfortable environment in the room the system is monitoring.
+The following table will help the user to decrypt the meaning of the light signal. The LEDs are represented from left to right as L1,L2,L3 and 0 mean the LED is inactive while 1 mean the LED is active.
+|L1|L2|L3|meaning|
+|---|---|---|-------|
+|0|0|0|temp is comfortable|
+|0|0|1|light is comfortable|
+|0|1|0|sound is comfortable|
+|0|1|1|temp needs decreasing|
+|1|0|0|temp needs increasing|
+|1|0|1|light needs decreasing|
+|1|1|0|light needs increasing|
+|1|1|1|sound needs decreasing|
 
 ### Button & Potentiometer
-
+The Button and the potentiometer are necessary for interacting with the setting menue.
+When the button is pressed the button is pressed it will change between the different menue for setting the comfort range and the main display routine. 
 ## Hardware Specifications
+
 ## Software Docuentation 
