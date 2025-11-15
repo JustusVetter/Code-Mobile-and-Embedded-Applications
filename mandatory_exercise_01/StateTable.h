@@ -16,6 +16,7 @@ struct stateTableEntry {
     tState thisState;
     tState interuptState;
     tState buttonState;
+    char sentence[];
 };
 
 class StateTable

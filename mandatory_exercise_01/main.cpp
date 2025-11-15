@@ -79,17 +79,21 @@ void runThermistor();
 void runLightSensor();
 void runSoundSensor();
 
-void setTempLow();
-void setTempHigh();
-void setLightLow();
-void setLightHigh();
-void setSoundBarrier();
+void output(char sentence[], float number);
 
 typedef void (*ActionFunc)();
 
+void setBarrier(float *barrier, const float *mid_barrier, int change_range, char output_sentence[]){
+    float factor = potentiometer.read();
+    *barrier = *mid_barrier - change_range + (change_range*2) * factor;
+    output(output_sentence, *barrier);
+    //printf(": %.0f\n", sound_barier);
+}
+char test[] = "abc";
+
+
 ActionFunc actions[] = {
-    runThermistor, runLightSensor, runSoundSensor, 
-    setTempLow, setTempHigh, setLightLow, setLightHigh, setSoundBarrier
+    runThermistor, runLightSensor, runSoundSensor
 };
 
 
@@ -115,8 +119,26 @@ int main()
             printf("%d -> %d\n",pState,nState);
 
 // TODO: make this number flexible
-            if (nState < 8){
-            actions[nState]();
+            if (nState < 3) {
+                actions[nState]();
+            }else{
+                switch (nState) {
+                case 3:
+                    setBarrier(&min_temp, &min_mid_temp, 5, "min temp:");
+                break;
+                case 4:
+                    setBarrier(&max_temp, &max_mid_temp, 5, "max temp:");
+                break;
+                case 5:
+                    setBarrier(&min_light, &min_mid_light, 100, "min light:");
+                break;
+                case 6:
+                    setBarrier(&max_light, &max_mid_light, 100, "max light:");
+                break;
+                case 7:
+                    setBarrier(&sound_barier, &mid_barrier, 40, "sound barr:");
+                break;
+                }
             }
         }
     }
@@ -169,9 +191,9 @@ void runThermistor(){
 
     }
     char sentence[] = "temp:";
-    if(display_change_counter==0){
+    //if(display_change_counter==0){
     output(sentence,temp);
-    }
+    //}
     printf("current tempreture: %.1f C Awarness: %d\n", temp, goodTempreture);
 }
 
@@ -192,9 +214,9 @@ void runLightSensor(){
     }
    
     char sentence[] = "light:";
-    if(display_change_counter==1){
+    //if(display_change_counter==1){
     output(sentence,light);
-    }
+    //}
     printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
 }
 
@@ -213,67 +235,14 @@ void runSoundSensor(){
         comp_sound = sound;
 
     }
-    if(display_change_counter==2){
+    //if(display_change_counter==2){
     char sentence[] = "sound:";
     output(sentence,sound);
-    }
+    //}
     delta_check_counter++;
     delta_check_counter = delta_check_counter % 4;
 
 // There is a much better solution but „keep it simple stupid“
-    display_change_counter++;
-    display_change_counter = display_change_counter % 4;
+    //display_change_counter++;
+    //display_change_counter = display_change_counter % 4;
 }
-
-void setTempLow(){
-    float factor = potentiometer.read();
-
-    min_temp = min_mid_temp-5 + 10 * factor;
-    char sentence[] = "min temp:";
-    output(sentence,min_temp);
-    printf("min_temp: %.0f\n",min_temp);
-}
-
-// 25-35 degree are quite "warm" (sometimes (maybe))
-// we should reevaluate about it  
-void setTempHigh(){
-    float factor = potentiometer.read();
-
-    max_temp = max_mid_temp-5 + 10 * factor;
-    char sentence[] = "max temp:";
-    output(sentence,max_temp);
-    printf("max_temp: %.0f\n",max_temp);
-}
-
-void setLightLow(){
-    float factor = potentiometer.read();
-
-    min_light = min_mid_light-100 + 200 * factor;
-    char sentence[] = "min light:";
-    output(sentence,min_light);
-    printf("min_light: %.0f\n", min_light);
-}
-
-void setLightHigh(){
-    float factor = potentiometer.read();
-
-    max_light = max_mid_light-100 + 200 * factor;
-    char sentence[] = "max light:";
-    output(sentence,max_light);
-    printf("max_light: %.0f\n", max_light);
-}
-
-void setSoundBarrier(){
-    float factor = potentiometer.read();
-
-    sound_barier = mid_barrier - 40 + 80 * factor;
-    char sentence[] = "sound bar:";
-    output(sentence,sound_barier);
-    printf("sound_barrier: %.0f\n", sound_barier);
-    display_change_counter =0;
-}
-
-
-
-
-
