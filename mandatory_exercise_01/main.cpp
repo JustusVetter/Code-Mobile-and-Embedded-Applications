@@ -19,6 +19,7 @@
 #include "SoundSensor.h"
 #include "LightSensor.h"
 #include "Grove_LCD_RGB_Backlight.h"
+#include "BoardLEDs.h"
 
 DigitalOut tempLed(LED1);
 DigitalOut lightLed(LED2);
@@ -105,7 +106,6 @@ int main()
     while (true) {
         if(buttonPressed ==true){
             buttonPressed = false;
-            printf("Gilgamesh kills humbaba\n");
         }
         if (timer == true) {
             timer=false;
