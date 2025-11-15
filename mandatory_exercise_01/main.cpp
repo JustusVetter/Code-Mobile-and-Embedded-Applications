@@ -67,6 +67,7 @@ bool buttonPressed = false;
 void buttonISR(){
     controlFlow.setButton();
     buttonPressed = true;
+    display_change_counter = 0;
 }
 
 void timerISR(){
@@ -105,7 +106,7 @@ int main()
     button.rise(&buttonISR);
 
     // set timer on 1 second => user will have to wait 1 second until the system react (maybe to much)
-    timer_interrupt.attach(&timerISR, 1s);
+    timer_interrupt.attach(&timerISR, 500ms);
 
     while (true) {
         if(buttonPressed ==true){
@@ -191,9 +192,9 @@ void runThermistor(){
 
     }
     char sentence[] = "temp:";
-    //if(display_change_counter==0){
+    if(display_change_counter==0){
     output(sentence,temp);
-    //}
+    }
     printf("current tempreture: %.1f C Awarness: %d\n", temp, goodTempreture);
 }
 
@@ -214,9 +215,9 @@ void runLightSensor(){
     }
    
     char sentence[] = "light:";
-    //if(display_change_counter==1){
+    if(display_change_counter==1){
     output(sentence,light);
-    //}
+    }
     printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
 }
 
@@ -235,14 +236,14 @@ void runSoundSensor(){
         comp_sound = sound;
 
     }
-    //if(display_change_counter==2){
+    if(display_change_counter==2){
     char sentence[] = "sound:";
     output(sentence,sound);
-    //}
+    }
     delta_check_counter++;
     delta_check_counter = delta_check_counter % 4;
 
 // There is a much better solution but „keep it simple stupid“
-    //display_change_counter++;
-    //display_change_counter = display_change_counter % 4;
+    display_change_counter++;
+    display_change_counter = display_change_counter % 4;
 }

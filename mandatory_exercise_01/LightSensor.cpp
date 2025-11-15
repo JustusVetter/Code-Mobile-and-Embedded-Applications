@@ -18,6 +18,10 @@ float LightSensor::read(){
     if (!_enableKiloLux) {
         lux = lux * 1000;
     }
+    // filter not possible values
+    if (lux < 0){
+        lux = 0;
+    }
     return lux;
 }
 void LightSensor::ioctl_kilolux(bool enableLux){
