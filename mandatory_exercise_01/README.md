@@ -61,3 +61,12 @@ When the button is pressed the button is pressed it will change between the diff
 ## Hardware Specifications
 
 ## Software Docuentation 
+```
+File Descriptions:
+- main.cpp: The entry point of the application, handles the libraries for the different hardware components.
+- StateTable.(h, cpp): State machine that handles the changing the threshold of the sensors based on button presses using interrupts.
+- SoundSensor.(h, cpp): Handles the soundsensor. Reads the noise level and implements a function for setting the sensitivity of the sensor.
+- Thermistor.(h, cpp): Handles the thermistor. Reads and calculates the tempreture and implements a function to switch the temperature between Celsius and Kelvin.
+- LightSensor.(h, cpp): Handles the lightsensor. Reads and calculates the light level and implements functions to convert the measurment from Lux to KiloLux and to switch the voltage between 3.3 and 5 Volts.
+- Grove_LCD_RGB_Backlight.(h, cpp): Handles the LCD display, and contains functions such as setting the background color for the display, clearing and writing to the display and locating the cursor on the display.
+
