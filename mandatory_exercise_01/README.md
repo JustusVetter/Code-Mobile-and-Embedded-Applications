@@ -63,7 +63,7 @@ When the button is pressed the button is pressed it will change between the diff
 ## Software Docuentation 
 ```
 
-### File Descriptions:
+File Descriptions:
 main.cpp: The entry point of the application, handles the libraries for the different hardware components.
 StateTable.(h, cpp): State machine that handles the changing the threshold of the sensors based on button presses using interrupts.
 SoundSensor.(h, cpp): Handles the soundsensor. Reads the noise level and implements a function for setting the sensitivity of the sensor.
