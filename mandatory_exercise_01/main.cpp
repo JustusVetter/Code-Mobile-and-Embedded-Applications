@@ -62,18 +62,14 @@ float sound_barier = 50;
 const float mid_barrier = 80;
 
 bool timer = false;
-bool buttonPressed = false;
 
 void buttonISR(){
     controlFlow.setButton();
-    buttonPressed = true;
     display_change_counter = 0;
 }
 
 void timerISR(){
-    
     timer = true;
-    
 }
 
 void runThermistor();
@@ -88,30 +84,21 @@ void setBarrier(float *barrier, const float *mid_barrier, int change_range, char
     float factor = potentiometer.read();
     *barrier = *mid_barrier - change_range + (change_range*2) * factor;
     output(output_sentence, *barrier);
-    //printf(": %.0f\n", sound_barier);
 }
-char test[] = "abc";
-
 
 ActionFunc actions[] = {
     runThermistor, runLightSensor, runSoundSensor
 };
 
-
 // main() runs in its own thread in the OS
 int main()
 {
-    //settings
-    //myLightSensor.ioctl_set_five_volt(true);
+    //INIT
     button.rise(&buttonISR);
-
-    // set timer on 1 second => user will have to wait 1 second until the system react (maybe to much)
     timer_interrupt.attach(&timerISR, 500ms);
 
+    // MAIN LOOP
     while (true) {
-        if(buttonPressed ==true){
-            buttonPressed = false;
-        }
         if (timer == true) {
             timer=false;
             int pState = controlFlow.getCurrent();
@@ -119,7 +106,6 @@ int main()
             int nState = controlFlow.getCurrent();
             printf("%d -> %d\n",pState,nState);
 
-// TODO: make this number flexible
             if (nState < 3) {
                 actions[nState]();
             }else{
@@ -221,6 +207,8 @@ void runLightSensor(){
     printf("current light: %.0f lux Awarness: %d\n", light, goodLight);
 }
 
+void blub();
+
 void runSoundSensor(){
     display_delta();
     float sound = mySoundSensor.read();
@@ -232,14 +220,33 @@ void runSoundSensor(){
         }else {
             isSoundIncreasing = false;
         }
-
         comp_sound = sound;
-
     }
     if(display_change_counter==2){
     char sentence[] = "sound:";
     output(sentence,sound);
     }
+    blub();
+}
+
+/*void runMesureAndDisplay(){
+    bool goodSound = sound <= sound_barier;
+    printf("current noise: %.0f db Awarness: %d\n", sound, goodSound);
+    if (delta_check_counter == 0){
+        if(comp_sound < sound){
+            isSoundIncreasing = true;
+        }else {
+            isSoundIncreasing = false;
+        }
+        comp_sound = sound;
+    }
+    if(display_change_counter==2){
+    char sentence[] = "sound:";
+    output(sentence,sound);
+    }
+}*/
+
+void blub(){
     delta_check_counter++;
     delta_check_counter = delta_check_counter % 4;
 
