@@ -50,10 +50,10 @@ The following table will help the user to decrypt the meaning of the light signa
 |0|0|1|light is comfortable|
 |0|1|0|sound is comfortable|
 |0|1|1|temp needs decreasing|
-|1|0|0|temp needs increasing|
-|1|0|1|light needs decreasing|
-|1|1|0|light needs increasing|
-|1|1|1|sound needs decreasing|
+|1|0|0|light needs decreasing|
+|1|0|1|sound needs increasing|
+|1|1|0|temp needs increasing|
+|1|1|1|light needs increasing|
 
 ### Button & Potentiometer
 The Button and the potentiometer are necessary for interacting with the setting menue.
