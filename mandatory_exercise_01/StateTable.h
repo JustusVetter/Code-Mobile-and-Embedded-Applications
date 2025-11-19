@@ -12,11 +12,11 @@ typedef enum {
 } tState;
 
 struct stateTableEntry {
-    //void *StateFunction;
     tState thisState;
     tState interuptState;
     tState buttonState;
-    char sentence[];
+    // LCD is 16 cahr long
+    char sentence[16];
 };
 
 class StateTable
@@ -27,6 +27,7 @@ class StateTable
     void next();
     void setButton();
     tState getCurrent();
+    char* getSentence();
 
     private:
 
@@ -35,5 +36,7 @@ class StateTable
     struct stateTableEntry _stateTable[8];
     stateTableEntry _current = _stateTable[0];
 };
+
+
 
 #endif

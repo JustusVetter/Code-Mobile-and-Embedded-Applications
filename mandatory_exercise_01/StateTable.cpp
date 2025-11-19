@@ -9,14 +9,14 @@ Date: 12.11.25
 
 StateTable::StateTable(): 
 _stateTable {
-        {display_temp,display_Light,set_Temp_L},
-        {display_Light,display_Sound,set_Temp_L},
-        {display_Sound,display_temp,set_Temp_L},
-        {set_Temp_L,set_Temp_L,set_Temp_H},
-        {set_Temp_H,set_Temp_H,set_Light_L},
-        {set_Light_L,set_Light_L,set_Light_H},
-        {set_Light_H,set_Light_H,set_Sound},
-        {set_Sound,set_Sound,display_temp}
+        {display_temp,display_Light,set_Temp_L, "temp:"},
+        {display_Light,display_Sound,set_Temp_L, "light:"},
+        {display_Sound,display_temp,set_Temp_L, "sound:"},
+        {set_Temp_L,set_Temp_L,set_Temp_H, "min temp:"},
+        {set_Temp_H,set_Temp_H,set_Light_L, "max temp:"},
+        {set_Light_L,set_Light_L,set_Light_H, "min light:"},
+        {set_Light_H,set_Light_H,set_Sound, "max light:"},
+        {set_Sound,set_Sound,display_temp, "sound barr:"}
     } 
 {
     
@@ -37,6 +37,10 @@ void StateTable::setButton(){
     if (_isButtonPressed == false){
         _isButtonPressed = true;
     }
+}
+
+char* StateTable::getSentence(){
+    return _current.sentence;
 }
 
 tState StateTable::getCurrent(){
