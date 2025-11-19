@@ -73,7 +73,8 @@ The used hardware consist out of several sensors, an lcd display and the board. 
 ## Software Documentation 
 The programm is following a specific flow. this flow is displayed in the following mermaid graph.
 
-```graph TD
+```mermaid
+graph TD
     A[Christmas] -->|Get money| B(Go shopping)
     B --> C{Let me think}
     C -->|One| D[Laptop]
