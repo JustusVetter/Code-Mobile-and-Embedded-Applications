@@ -39,9 +39,6 @@ The Setting Menue is displaying the max and min value or the barrier in the case
 |sound barrier|40-120|
   
 ### LEDs
-```
-may need changement
-```
 Beside of the backlight of the LCD Display the buttons are also providing the user with the information how the temprature, light and the sound should be changed to keep a comfortable environment in the room the system is monitoring.
 The following table will help the user to decrypt the meaning of the light signal. The LEDs are represented from left to right as L1,L2,L3 and 0 mean the LED is inactive while 1 mean the LED is active.
 |L1|L2|L3|meaning|
@@ -49,11 +46,11 @@ The following table will help the user to decrypt the meaning of the light signa
 |0|0|0|temp is comfortable|
 |0|0|1|light is comfortable|
 |0|1|0|sound is comfortable|
-|0|1|1|temp needs decreasing|
-|1|0|0|light needs decreasing|
-|1|0|1|sound needs increasing|
-|1|1|0|temp needs increasing|
-|1|1|1|light needs increasing|
+|0|1|1|temp needs decreasment|
+|1|0|0|light needs decreasment|
+|1|0|1|sound needs decreasment|
+|1|1|0|temp needs increasement|
+|1|1|1|light needs increasement|
 
 ### Button & Potentiometer
 The Button and the potentiometer are necessary for interacting with the setting menue.
@@ -75,11 +72,18 @@ The programm is following a specific flow. this flow is displayed in the followi
 
 ```mermaid
 graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
-    B --> C{Let me think}
-    C -->|One| D[Laptop]
-    C -->|Two| E[iPhone]
-    C -->|Three| F[fa:fa-car Car]
+    Init --> A
+    A[display temp] -->|tick| B[display light]
+    B -->|tick| C[display sound]
+    C -->|tick| A
+    D[set min temp] -->|tick & button| E
+    E[set max temp] -->|tick & button| F
+    F[set min light] -->|tick & button| G
+    G[set max light] -->|tick & button| H
+    H[set snd barr] -->|tick & button| A
+    A -->|tick & button| D
+    B -->|tick & button| D
+    C -->|tick & button| D
 ```
 
 ```
