@@ -57,10 +57,31 @@ The following table will help the user to decrypt the meaning of the light signa
 
 ### Button & Potentiometer
 The Button and the potentiometer are necessary for interacting with the setting menue.
-When the button is pressed the button is pressed it will change between the different menue for setting the comfort range and the main display routine. 
+When the button is pressed  it will change between the different menues for setting the comfort ranges and the main display routine.
+While one of the menues for settings is activated the user will be abel to use the potentiometer to change the value in the corresponding range mentioned above. a rotation to left will increase the values while a rotation to right will decrease it. When the button is pressed the setted value will be saved. It is necessary to mention that when the button is pressed the setting Menue is changed and the value in this menue is directly changed according on the angle of the potentiometer. This means that the user might be forced to remember the old values if he want to edit just one of the values because he is forced to set it manually back.
 ## Hardware Specifications
+The Software is written for a arduino nucleon board.
+The used hardware consist out of several sensors, an lcd display and the board. The connection of the different peripherals with the different ports on the controller will be displayed in the following table.
+|peripheral|port|
+|----------|----|
+|temp sensor|A0|
+|light sensor|A1|
+|potentiometer|A2|
+|sound sensor|A3|
+|button|D4|
+|LCD Display|D14-D15|
+## Software Documentation 
+The programm is following a specific flow. this flow is displayed in the following mermaid graph.
 
-## Software Docuentation 
+```mermaid
+graph TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]
+```
+
 ```
 
 File Descriptions:
