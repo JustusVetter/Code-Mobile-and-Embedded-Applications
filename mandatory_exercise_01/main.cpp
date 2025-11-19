@@ -74,9 +74,11 @@ void timerISR(){
     
 }
 
-void runThermistor();
+/*void runThermistor();
 void runLightSensor();
-void runSoundSensor();
+void runSoundSensor();*/
+
+void runSensor();
 
 void setTempLow();
 void setTempHigh();
@@ -86,9 +88,19 @@ void setSoundBarrier();
 
 typedef void (*ActionFunc)();
 
-ActionFunc actions[] = {
+void setBarrier(float *barrier, const float *mid_barrier, int change_range, char output_sentence[]){
+    float factor = potentiometer.read();
+    *barrier = *mid_barrier - change_range + (change_range*2) * factor;
+    output(output_sentence, *barrier);
+}
+
+/*ActionFunc actions[] = {
     runThermistor, runLightSensor, runSoundSensor, 
     setTempLow, setTempHigh, setLightLow, setLightHigh, setSoundBarrier
+};*/
+
+ActionFunc actions[] = {
+    runSensor
 };
 
 
@@ -115,8 +127,26 @@ int main()
             printf("%d -> %d\n",pState,nState);
 
 // TODO: make this number flexible
-            if (nState < 8){
-            actions[nState]();
+             if (nState < 3) {
+                actions[nState]();
+            }else{
+                switch (nState) {
+                case 3:
+                    setBarrier(&min_temp, &min_mid_temp, 5, "min temp:");
+                break;
+                case 4:
+                    setBarrier(&max_temp, &max_mid_temp, 5, "max temp:");
+                break;
+                case 5:
+                    setBarrier(&min_light, &min_mid_light, 100, "min light:");
+                break;
+                case 6:
+                    setBarrier(&max_light, &max_mid_light, 100, "max light:");
+                break;
+                case 7:
+                    setBarrier(&sound_barier, &mid_barrier, 40, "sound barr:");
+                break;
+                }
             }
         }
     }
@@ -154,7 +184,8 @@ void output(char sentence[], float number){
 }
 
 
-void runThermistor(){
+
+/*void runThermistor(){
     display_delta();
     float temp = myThermistor.read();
     bool goodTempreture = min_temp <= temp && temp <= max_temp;
@@ -223,9 +254,9 @@ void runSoundSensor(){
 // There is a much better solution but „keep it simple stupid“
     display_change_counter++;
     display_change_counter = display_change_counter % 4;
-}
+}*/
 
-void setTempLow(){
+/*void setTempLow(){
     float factor = potentiometer.read();
 
     min_temp = min_mid_temp-5 + 10 * factor;
@@ -271,7 +302,7 @@ void setSoundBarrier(){
     output(sentence,sound_barier);
     printf("sound_barrier: %.0f\n", sound_barier);
     display_change_counter =0;
-}
+}*/
 
 
 
