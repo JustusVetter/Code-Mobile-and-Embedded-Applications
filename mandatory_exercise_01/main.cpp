@@ -3,7 +3,6 @@
     Date: 12.11.25
 */
 #include "AnalogIn.h"
-#include "DigitalOut.h"
 #include "InterruptIn.h"
 #include "PinNames.h"
 #include "ThisThread.h"
@@ -30,48 +29,31 @@ StateTable controlFlow;
 
 SensorController(mySensorController);
 
-float menue_array_change[]= {
-    20,
-    25,
-    300,
-    500,
-    50,
-    };
-
-const int menue_array_unchange[]{
-    20, 5,
-    30, 5,
-    300, 100,
-    500, 100,
-    80, 40
+int menue_array[]{
+    20,20, 5,
+    25,30, 5,
+    300,300, 100,
+    500,500, 100,
+    50,80, 40
 };
 
 bool timer = false;
 
-void output(char sentence[], float number);
+void buttonISR(){controlFlow.setButton();}
 
-void buttonISR(){
-    controlFlow.setButton();
-}
-
-void timerISR(){
-    timer = true;
-}
+void timerISR(){timer = true;}
 
 void output(char sentence[], float number);
 
-void setBarrier(float * barrier, const int *mid_barrier, const int *change_range, char output_sentence[]){
-    int c_r = *change_range;
-    float m_b = *mid_barrier;
+void setBarrier(int * barrier, const int *mid_barrier, const int *change_range, char output_sentence[]){
     float factor = potentiometer.read();
-    *barrier = m_b - c_r + (c_r * 2) * factor;
+    *barrier = *mid_barrier - *change_range + (*change_range * 2) * factor;
     float out_flt = *barrier;
     output(output_sentence, out_flt);
 }
 
 int main()
 {
-    
     //INIT
     button.rise(&buttonISR);
     timer_interrupt.attach(&timerISR, 2s);
@@ -81,49 +63,44 @@ int main()
         if (timer == true) {
             
             timer=false;
-            int pState = controlFlow.getCurrent();
             controlFlow.next();
             int nState = controlFlow.getCurrent();
-            printf("%d -> %d\n",pState,nState);
             
-            if (nState < 3) {
+            if (nState < 3) { // State associated with output
                 timer_interrupt.attach(&timerISR, 2s);
                 float value = mySensorController.runSensor(nState);
                 int pattern_creator = 0;
 
                 if(nState<2){
-                if (value > menue_array_change[nState*2+1] ) {
-                    pattern_creator = 3;
-                    display.setRGB(0, 0, 255 );
+                    if (value > menue_array[nState*6+3] ) {
+                        pattern_creator = 3;
+                        display.setRGB(0, 0, 255 );
                     
-                } else if (value < menue_array_change[nState*2] ) {
+                    } else if (value < menue_array[nState*6] ) {
                         pattern_creator = 6;
                         display.setRGB(255, 0, 0);
-                }else{
-                    display.setRGB(0, 0, 0);
-                }
+                    }else{
+                        display.setRGB(0, 0, 0);
+                    }
                 } else {
                     
-                    if (value > menue_array_change[nState*2]) {
-                    pattern_creator = 3;
-                    display.setRGB(0, 0, 255);
+                    if (value > menue_array[nState*6]) {
+                        pattern_creator = 3;
+                        display.setRGB(0, 0, 255);
                     }else{
-                    display.setRGB(0, 0, 0);
+                        display.setRGB(0, 0, 0);
+                    }
                 }
-                }
-
-                printf("%d\n",pattern_creator);
                 leds.write_pattern(nState+pattern_creator);
                 output(controlFlow.getSentence(), value);
                 
                 
-            } else{
-  
+            } else{ //State associated with menue
                 timer_interrupt.attach(&timerISR,500ms);
                 controlFlow.next();
                 int cr_state = controlFlow.getCurrent();
                 int state = cr_state-3;
-                setBarrier(&menue_array_change[state], &menue_array_unchange[state*2], &menue_array_unchange[state*2+1], controlFlow.getSentence());
+                setBarrier(&menue_array[state*3], &menue_array[state*3+1], &menue_array[state*3+2], controlFlow.getSentence());
             }
 
         }

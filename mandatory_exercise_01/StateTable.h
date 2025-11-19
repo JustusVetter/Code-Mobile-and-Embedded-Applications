@@ -15,7 +15,7 @@ struct stateTableEntry {
     tState thisState;
     tState interuptState;
     tState buttonState;
-    // LCD is 16 cahr long
+    // LCD is 16 char long
     char sentence[16];
 };
 
