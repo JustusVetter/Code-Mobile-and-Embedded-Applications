@@ -63,6 +63,8 @@ const float mid_barrier = 80;
 bool timer = false;
 bool buttonPressed = false;
 
+void output(char sentence[], float number);
+
 void buttonISR(){
     controlFlow.setButton();
     buttonPressed = true;

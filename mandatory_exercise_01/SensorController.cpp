@@ -18,8 +18,12 @@ float min_temp = 20;
 float max_temp = 25;
 float sound_barier = 50;
 
+
+void blub();
+
+/// run 
 void runSensor(){
-    display_delta();
+    //display_delta();
     float temp = myThermistor.read();
     bool goodTempreture = min_temp <= temp && temp <= max_temp;
 
@@ -65,6 +69,8 @@ void runSensor(){
 
     blub();
 }
+
+
 
 void blub(){
     delta_check_counter++;
