@@ -46,7 +46,6 @@ The Setting Menu is displaying the max and min value, or the barrier in the case
   
 ### LEDs
 Beside the backlight of the LCD Display, the LEDs are also providing the user with information on how the temperature, light, and sound should be changed to keep a comfortable environment in the room the system is monitoring.  
-
 The following table will help the user to decrypt the meaning of the light signals. The LEDs are represented from left to right as L1, L2, L3, and 0 means the LED is inactive while 1 means the LED is active.
 
 | L1 | L2 | L3 | meaning                   |
@@ -62,11 +61,8 @@ The following table will help the user to decrypt the meaning of the light signa
 
 ### Button & Potentiometer
 The button and the potentiometer are necessary for interacting with the setting menu.  
-
 When the button is pressed, it will change between the different menus for setting the comfort ranges and the main display routine.  
-
 While one of the setting menus is activated, the user will be able to use the potentiometer to change the value within the corresponding range mentioned above. A rotation to the left will increase the values, while a rotation to the right will decrease them. When the button is pressed, the set value will be saved.
-
 It is necessary to mention that when the button is pressed, the setting menu is changed, and the value in this menu is directly adjusted according to the angle of the potentiometer. This means that the user might be forced to remember the old values if they want to edit just one of the values, because they are forced to set it manually back.
 ## Hardware Specifications
 The software is written for an Arduino Nucleo board.
@@ -91,9 +87,7 @@ Furthermore, it is necessary to mention that the input voltage should be set to 
 
 ### Program Flow
 The program follows a specific flow. This flow is displayed in the following Mermaid graph.
-
 A _tick_ in this case is a interrupt by the main clock of the ssystem it is necessary to mention, that the clock will run with two different speeds.
-
 During the menue {D,E,F,G,H} with the speed of **500ms** and during the displaying of measurements with the speed of **2s**. This assures convenient reading time for the user while maintain high reactiveness while adjusting settings {A,B,C}.
 ```mermaid
 graph TD
