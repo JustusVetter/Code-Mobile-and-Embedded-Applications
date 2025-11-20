@@ -87,8 +87,10 @@ Furthermore, it is necessary to mention that the input voltage should be set to 
 
 ### Program Flow
 The program follows a specific flow. This flow is displayed in the following Mermaid graph.  
-A _tick_ in this case is a interrupt by the main clock of the ssystem it is necessary to mention, that the clock will run with two different speeds.  
-During the menue {D,E,F,G,H} with the speed of **500ms** and during the displaying of measurements with the speed of **2s**. This assures convenient reading time for the user while maintain high reactiveness while adjusting settings {A,B,C}.
+A _tick_ in this case is an interrupt triggered by a timerinterrupt of the system. It is necessary to mention that this timerinterrupt runs at two different speeds:  
+during the menu states {D, E, F, G, H} at **500 ms**, and during the display of measurements {A, B, C} at **2 s**.  
+This ensures convenient reading time for the user while maintaining high responsiveness when adjusting settings.
+
 ```mermaid
 graph TD
     Init --> A
@@ -107,11 +109,14 @@ graph TD
 
 ```
 
-File Descriptions:
-main.cpp: The entry point of the application, handles the libraries for the different hardware components.
-StateTable.(h, cpp): State machine that handles the changing the threshold of the sensors based on button presses using interrupts.
-SoundSensor.(h, cpp): Handles the soundsensor. Reads the noise level and implements a function for setting the sensitivity of the sensor.
-Thermistor.(h, cpp): Handles the thermistor. Reads and calculates the tempreture and implements a function to switch the temperature between Celsius and Kelvin.
-LightSensor.(h, cpp): Handles the lightsensor. Reads and calculates the light level and implements functions to convert the measurment from Lux to KiloLux and to switch the voltage between 3.3 and 5 Volts.
-Grove_LCD_RGB_Backlight.(h, cpp): Handles the LCD display, and contains functions such as setting the background color for the display, clearing and writing to the display and locating the cursor on the display.
+### Further
+**File Descriptions:**
+
+|- **main.cpp**: The entry point of the application; handles the libraries for the different hardware components.  
+|- **StateTable.(h, cpp)**: State machine that handles changing the thresholds of the sensors based on button presses using interrupts.  
+|- **SoundSensor.(h, cpp)**: Handles the sound sensor, reads the noise level, and implements a function for setting the sensitivity of the sensor.  
+|- **Thermistor.(h, cpp)**: Handles the thermistor, reads and calculates the temperature, and implements a function to switch the temperature between Celsius and Kelvin.  
+|- **LightSensor.(h, cpp)**: Handles the light sensor, reads and calculates the light level, and implements functions to convert the measurement from Lux to Kilolux and to switch the voltage between 3.3 V and 5 V.  
+-- **Grove_LCD_RGB_Backlight.(h, cpp)**: Handles the LCD display and contains functions such as setting the background color, clearing and writing to the display, and positioning the cursor.
+
 
