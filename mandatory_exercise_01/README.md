@@ -1,8 +1,6 @@
 # Smart Ambient Awareness System
 The Smart Ambient Awareness System is an embedded application and system developed using the mbed C++ library.  
-
 It monitors light sensitivity in lux, sound in decibels, and temperature in Celsius. If any of these values fall outside a specific range, the user will be notified by a light signal.  
-
 Furthermore, the user can adjust the ranges using a potentiometer. To do this, they have to access a settings menu by pressing a button. The specific change domains are documented below.
 
 ## User Interface
