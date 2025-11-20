@@ -1,5 +1,5 @@
 # Smart Ambient Awareness System
-The Smart Ambient Awareness System is an embedded application and system developed using the mbed C++ library.  
+The Smart Ambient Awareness System (SAAS) is an embedded application and system developed using the mbed C++ library.  
 It monitors light sensitivity in lux, sound in decibels, and temperature in Celsius. If any of these values fall outside a specific range, the user will be notified by a light signal.  
 Furthermore, the user can adjust the ranges using a potentiometer. To do this, they have to access a settings menu by pressing a button. The specific change domains are documented below.
 
@@ -84,12 +84,14 @@ Furthermore, it is necessary to mention that the input voltage should be set to 
 ## Software Documentation
 
 ### Setup
-
+For setup just copy the files stored in the repository in an mbed.os project, compile and run it on your board.
 ### Program Flow
 The program follows a specific flow. This flow is displayed in the following Mermaid graph.  
 A _tick_ in this case is an interrupt triggered by a timerinterrupt of the system. It is necessary to mention that this timerinterrupt runs at two different speeds:  
 during the menu states {D, E, F, G, H} at **500 ms**, and during the display of measurements {A, B, C} at **2 s**.  
-This ensures convenient reading time for the user while maintaining high responsiveness when adjusting settings.
+This ensures convenient reading time for the user while maintaining high responsiveness when adjusting settings.  
+The _button_ in the graph corresponds to a software flag set by an interrupt caused by the hardware button (D4) on the rising edge.  
+After a reboot, the program will always start with initialization, which is the entry point of this workflow.
 
 ```mermaid
 graph TD
@@ -107,9 +109,14 @@ graph TD
     C -->|tick & button| D
 ```
 
-```
+## Further
+Because not every peripheral is natively running with **5V**, the temperature measurement is divided by _2_. However, this follows no sophisticated principle and was chosen by trial and error for correction.  
+Also, some sensors seem to be quite sensitive, such as the sound sensor, at least during our tests.
 
-### Further
+A drawback of our implementation of the SAAS that should be mentioned is that a button press could take up to **2 s** to be registered if the button interrupt is triggered directly after starting a new measurement display.
+
+## Appendix
+```
 **File Descriptions:**
 
 |- **main.cpp**: The entry point of the application; handles the libraries for the different hardware components.  
