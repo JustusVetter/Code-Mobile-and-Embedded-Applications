@@ -86,8 +86,8 @@ Furthermore, it is necessary to mention that the input voltage should be set to 
 ### Setup
 
 ### Program Flow
-The program follows a specific flow. This flow is displayed in the following Mermaid graph.
-A _tick_ in this case is a interrupt by the main clock of the ssystem it is necessary to mention, that the clock will run with two different speeds.
+The program follows a specific flow. This flow is displayed in the following Mermaid graph.  
+A _tick_ in this case is a interrupt by the main clock of the ssystem it is necessary to mention, that the clock will run with two different speeds.  
 During the menue {D,E,F,G,H} with the speed of **500ms** and during the displaying of measurements with the speed of **2s**. This assures convenient reading time for the user while maintain high reactiveness while adjusting settings {A,B,C}.
 ```mermaid
 graph TD
