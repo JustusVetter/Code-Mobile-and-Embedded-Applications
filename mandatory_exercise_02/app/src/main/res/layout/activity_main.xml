@@ -48,7 +48,7 @@
         app:srcCompat="@drawable/icon_v1" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnLogin"
         android:layout_width="120dp"
         android:layout_height="71dp"
         android:layout_marginEnd="76dp"
