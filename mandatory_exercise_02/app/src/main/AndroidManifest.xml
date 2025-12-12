@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lifeify">
         <activity
+            android:name=".placeholder.ObjectivesActivity"
+            android:exported="false" />
+        <activity
             android:name=".SectionsActivity"
             android:exported="false" />
         <activity
