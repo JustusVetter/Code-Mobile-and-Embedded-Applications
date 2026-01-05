@@ -1,0 +1,54 @@
+\documentclass[11pt, a4paper]{report}
+\usepackage[utf8]{inputenc} 
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref,xcolor}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+
+% Bibliography management
+%  see https://www.overleaf.com/learn/latex/Biblatex_citation_styles
+%  and https://www.overleaf.com/learn/latex/Bibliography_management_in_LaTeX
+% to use overleaf with reference manager
+%  see: https://no.overleaf.com/blog/639-tip-of-the-week-overleaf-and-reference-managers
+% \usepackage[backend=biber]{biblatex}
+% \bibliography{src.bib} %Imports bibliography file
+ 
+% Title of your project
+\title{Mandatory Exercise 2 Lifeify}
+
+% Name of deliverable
+\newcommand{\deliverableName}{}
+
+% Group names(s)
+\author{Dávid Szucs, Justus Liam Vetter}
+
+% Group number
+\newcommand{\groupNumber}{x}
+
+% Any comments for us
+\newcommand{\comments}{Comments for teachers of the course}
+
+ % Web address for the project (if any)
+\newcommand{\homepage}{\url{https://www.ntnu.edu/studies/courses/IT3010}}
+
+% Date for title page, default is today and 
+\date{\today}
+
+
+\makeatletter{}
+
+\begin{document}
+
+\input{./title.tex}
+
+\tableofcontents
+
+\input{./chapters/exercise01.tex}
+\input{./chapters/exercise02.tex}
+\input{./chapters/exercise03.tex}
+
+
+
+
+\end{document}
