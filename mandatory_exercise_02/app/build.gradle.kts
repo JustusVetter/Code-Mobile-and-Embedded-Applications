@@ -1,3 +1,5 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -37,6 +39,8 @@ android {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:33.5.0-android")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

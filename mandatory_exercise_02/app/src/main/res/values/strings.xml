@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lifeify</string>
+    <string name="default_password_hash">0299200cb152e53b0f057d173af0abdf0c38603bd80907408fa9aa27dfbdaa3d</string>
+    <string name="default_user">Gilgamesh</string>
 </resources>
