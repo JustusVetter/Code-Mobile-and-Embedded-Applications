@@ -172,26 +172,21 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(result2);
                 JSONArray list = jsonObject.getJSONArray("list");
-
-                // Process first 5 days (8 items per day = indices 0,8,16,24,32)
                 int[] dayIndices = {0, 8, 16, 24, 32};
 
                 for (int day = 0; day < 5; day++) {
                     JSONObject item = list.getJSONObject(dayIndices[day]);
                     JSONObject main = item.getJSONObject("main");
 
-                    // Get date (dt is Unix timestamp)
                     long dt = item.getLong("dt");
                     String dateStr = new java.text.SimpleDateFormat("EEE", java.util.Locale.getDefault())
                             .format(new java.util.Date(dt * 1000));
 
-                    // Get weather icon
                     String iconCode = item.getJSONArray("weather")
                             .getJSONObject(0)
                             .getString("icon");
                     String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
 
-                    // Update UI for this day
                     switch (day) {
                         case 0:
                             Glide.with(this).load(iconUrl).into(imageDay1);
