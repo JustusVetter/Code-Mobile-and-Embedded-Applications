@@ -12,21 +12,30 @@ SDK: API 27\\
 Build Configuration Language: Kotlin DSI\\
 \section{Answer the following questions.}
 \subsection{What is the package name?}
+The package name is an identifier to identify the package. In this way others can easily use and build on top of already programmed packages. In our case the package name is \textit{edu.urv.lifeify} .
 \subsection{What is the Minimum SDK?}
+The minimum SDK is the earliest release of the Android SDK the application will run on. In our case this is \textit{Version 27}. The minimum, target and compile SDK version is set in the file \texttt{build.gradel.kts}.
 \subsection{Which are the differences between the SDK version you are using to compile the project and the parameter Minimum SDK?}
+In our case the target and the compile SDKs version is \textit{Version 36}. The difference is that the application will compile with the compile SDK version. But there will only features used already available at the minimum SDKs level.
 \subsection{Can you install this package in a device with Android Jelly Bean? And in one version Android 15?}
+No, because it is lower than the minimum SDK version and might not run.  
 \chapter{Exercise 2.}
 When the project is open, you will need an emulator of a phone. I recommend using a Google Pixel 7
 with Google Play and OS Android 13 (“Tiramisu”), API 33).
 \chapter{Exercise 3.}
 Open the project and as you know you can see different hierarchic folders (manifests, java and res).
 \section{What is stored in the folder “res”?}
+The \textit{ressouce} Folder res normally stores all \textit{Layouts} and UI elements of the application.
 \section{What is an activity?}
+Activities in the android development terminology are responsible for managing interactions with the UI. They contain the logic and code of the application. 
 \section{What is stored in de folder “java”?}
+The Folder java stores the packages of the project and their \textit{Activities}.
 \section{What is the target of the following code line?}
 \begin{verbatim}
 setContentView(R.layout.activity_main)
 \end{verbatim}
+\\
+The Codeline set the current view on the main activities Layout (the first Layout visible for the user). The path is findable under \texttt{res/layout/activity\_main.xml} .
 \chapter{Exercise 4.}
 Next one, you need to select the file activity_main.xml, pay attention to the panel on the top right corner. You can see that the screen can be changed between code and design. Next steps to follow:
 \section{-}
@@ -49,3 +58,9 @@ One view Button with the name “@+id/btnLogin” in at 200 dp of the top of the
 \begin{figure}[h]
 \includegraphics[scale=0.1]{./pictures/screenshot.png}
 \end{figure}
+\chapter{Exercise 5}
+\section{-}
+Protect the code of creation and start the activity with an if that verify the user and the password, you can set the default password and user as you want. If this is not correct do not create the activity and show a toast indicating that the user validation was unsuccessful.
+\todo[inline]{haven't done this yet must have forgotten}
+\section{Test the code in the emulator and check if this works, make some screenshots and put in your document to prove.}
+\todo[inline]{haven't done this yet must have forgotten}
