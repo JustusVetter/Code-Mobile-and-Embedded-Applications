@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.29)  5 JAN 2026 18:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.29)  5 JAN 2026 18:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -761,10 +761,10 @@ Package rerunfilecheck Info: File `T03_AME_Exercise2.out' has not changed.
 (rerunfilecheck)             Checksum: F2D6D941154AAEE4439C7A30117B9B44;5429.
  ) 
 Here is how much of TeX's memory you used:
- 19727 strings out of 473190
- 374462 string characters out of 5715800
- 750136 words of memory out of 5000000
- 42616 multiletter control sequences out of 15000+600000
+ 19723 strings out of 473190
+ 374380 string characters out of 5715800
+ 750039 words of memory out of 5000000
+ 42612 multiletter control sequences out of 15000+600000
  566024 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,7n,101p,762b,520s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -777,7 +777,7 @@ sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
 /local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on T03_AME_Exercise2.pdf (9 pages, 23005424 bytes).
+Output written on T03_AME_Exercise2.pdf (9 pages, 23005668 bytes).
 PDF statistics:
  257 PDF objects out of 1000 (max. 8388607)
  215 compressed objects within 3 object streams
