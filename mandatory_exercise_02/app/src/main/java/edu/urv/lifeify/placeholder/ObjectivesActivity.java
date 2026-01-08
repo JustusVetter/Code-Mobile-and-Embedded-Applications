@@ -2,12 +2,15 @@ package edu.urv.lifeify.placeholder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -27,7 +30,7 @@ public class ObjectivesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         section_id = intent.getStringExtra("id");
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.objectives), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -45,14 +48,19 @@ public class ObjectivesActivity extends AppCompatActivity {
 
         if(section_id.equals("1")) {
             //back.setImageResource(R.drawable.back_health);
-
-            Log.i("info: ", "back.setImageResource(R.drawable.back_health)");
+            ConstraintLayout back = findViewById(R.id.objectives);
+            back.setBackgroundResource(R.drawable.back_health);
+            //Log.i("info: ", "back.setImageResource(R.drawable.back_health)");
         }
         else if(section_id.equals("2")){
             //back.setImageResource(R.drawable.back_work);
+            ConstraintLayout back = findViewById(R.id.objectives);
+            back.setBackgroundResource(R.drawable.back_work);
             Log.i("info: ", "back.setImageResource(R.drawable.back_work)");
         } else{
             //back.setImageResource(R.drawable.back_social);
+            ConstraintLayout back = findViewById(R.id.objectives);
+            back.setBackgroundResource(R.drawable.back_social);
             Log.i("info: ", "back.setImageResource(R.drawable.back_social)");
         }
     }
