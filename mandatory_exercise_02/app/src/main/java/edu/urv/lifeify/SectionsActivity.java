@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
 import edu.urv.lifeify.model.DataSource;
 import edu.urv.lifeify.placeholder.ObjectivesActivity;
@@ -37,6 +38,10 @@ public class SectionsActivity extends AppCompatActivity {
                         String section_id = result.getData().getStringExtra("id");
 
                         double level = DataSource.getInstance().Recalculate(section_id);
+
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        SectionsFragment myFragment = (SectionsFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView);
+                        myFragment.mAdapter.notifyDataSetChanged();
                     }
                 }
         );

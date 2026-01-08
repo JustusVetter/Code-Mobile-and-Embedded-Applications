@@ -3,6 +3,7 @@ package edu.urv.lifeify.placeholder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -40,5 +41,19 @@ public class ObjectivesActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
+
+
+        if(section_id.equals("1")) {
+            //back.setImageResource(R.drawable.back_health);
+
+            Log.i("info: ", "back.setImageResource(R.drawable.back_health)");
+        }
+        else if(section_id.equals("2")){
+            //back.setImageResource(R.drawable.back_work);
+            Log.i("info: ", "back.setImageResource(R.drawable.back_work)");
+        } else{
+            //back.setImageResource(R.drawable.back_social);
+            Log.i("info: ", "back.setImageResource(R.drawable.back_social)");
+        }
     }
 }
