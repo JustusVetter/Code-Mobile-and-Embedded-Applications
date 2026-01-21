@@ -17,20 +17,23 @@ public class DataSourceHardcoded extends DataSource{
     }
 
     @Override
-    public  void loadSection(ModSection sec){
-        if(sec.id.equals("1")){
+    public  void loadSection(ModSection sec) {
+        if (sec.id.equals("1")) {
 
-            ModObjective o = new ModObjective("101","Eat Vegetables", ModObjective.ObjType.YES_NO,0.0,0,0,false);
+            ModObjective o = new ModObjective("101", "Eat Vegetables", ModObjective.ObjType.YES_NO, 0.0, 0, 0, false);
             sec.objectives.add(o);
-            o = new ModObjective("102","Walk 60 minutes", ModObjective.ObjType.NUMBER,0.0,0,60,false);
+            o = new ModObjective("102", "Walk 60 minutes", ModObjective.ObjType.NUMBER, 0.0, 0, 60, false);
             sec.objectives.add(o);
-            o = new ModObjective("103","Drink water", ModObjective.ObjType.YES_NO,0.0,0,0,false);
+            o = new ModObjective("103", "Drink water", ModObjective.ObjType.YES_NO, 0.0, 0, 0, false);
             sec.objectives.add(o);
         } else if (sec.id.equals("2")) {
 
-            ModObjective o = new ModObjective("104","Sleep", ModObjective.ObjType.YES_NO,0.0,0,0,false);
+            ModObjective o = new ModObjective("104", "Sleep", ModObjective.ObjType.YES_NO, 0.0, 0, 0, false);
             sec.objectives.add(o);
-            o = new ModObjective("105","Drink 3 beer", ModObjective.ObjType.NUMBER,0.0,0,3,false);
+            o = new ModObjective("105", "Drink 3 beer", ModObjective.ObjType.NUMBER, 0.0, 0, 3, false);
+            sec.objectives.add(o);
+        } else if (sec.id.equals("3")){
+            ModObjective o = new ModObjective("106", "Play Solitaire", ModObjective.ObjType.YES_NO, 0.0, 0, 0, false);
             sec.objectives.add(o);
         }
     }

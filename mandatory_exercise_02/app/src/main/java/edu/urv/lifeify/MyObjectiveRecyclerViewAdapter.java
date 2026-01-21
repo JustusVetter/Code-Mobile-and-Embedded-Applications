@@ -47,12 +47,19 @@ public class MyObjectiveRecyclerViewAdapter extends RecyclerView.Adapter<MyObjec
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).content);
+
         if(holder.mItem.type == ModObjective.ObjType.NUMBER){
             holder.mText.setVisibility(View.VISIBLE);
             holder.mCheck.setVisibility(View.INVISIBLE);
+            // display current state
+            holder.mText.setText(Integer.toString( holder.mItem.act_value));
+            Log.i("DEBUG",position+" is "+ Integer.toString( holder.mItem.act_value));
         }else{
             holder.mText.setVisibility(View.INVISIBLE);
             holder.mCheck.setVisibility(View.VISIBLE);
+            // display current state
+            holder.mCheck.setChecked(holder.mItem.b_value);
+            Log.i("DEBUG",position+": "+holder.mCheck.isChecked());
         }
 
         if (holder.textWatcher == null) {
