@@ -1,13 +1,32 @@
 package com.example.weather_app;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import android.Manifest;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,8 +39,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,6 +60,22 @@ public class MainActivity extends AppCompatActivity {
 
     private Button searchBtn;
 
+    // Blouetooth
+    BluetoothManager bluetoothManager;
+    BluetoothAdapter bluetoothAdapter;
+    private List<BluetoothDevice> foundDevices;
+
+    // Multi Threading
+    ScheduledExecutorService mExecutor = Executors.newScheduledThreadPool(1);
+    Handler mHandler = new Handler(Looper.getMainLooper());
+    //Test Toast for Handler
+    Toast toast;
+
+    //The textfield for output
+    private TextView bluetoothResult;
+
+    //The enable / disable for bluetooth feature
+    private Switch bluetoothSwitch;
     private TextInputEditText cityInput;
 
     private static final String API_KEY = "f70ae9a649de52d2829873e86648c65d";
@@ -42,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -49,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        bluetoothResult = findViewById(R.id.blt_tmp_text);
+        bluetoothSwitch = findViewById(R.id.bltswitch);
         city = findViewById(R.id.city);
         temperatureValue = findViewById(R.id.temperature);
         windValue = findViewById(R.id.windValue);
@@ -81,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
         searchBtn = findViewById(R.id.searchBtn);
 
         cityInput = findViewById(R.id.cityInput);
+
+        // Start Multi Threading for Bluetooth
+        bluetoothMultiThreading();
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,4 +273,145 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // INFO: Code is a chimera from multiple manpage sides.
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d("TEST","This is a test");
+        if (bluetoothAdapter != null ) {
+            Log.d("TEST","B NN");
+            if (bluetoothAdapter.isEnabled()) {
+                Log.d("TEST","B E");
+                bluetoothResult.setVisibility(View.VISIBLE);
+                bluetoothSwitch.setVisibility(View.VISIBLE);
+            } else if (!bluetoothAdapter.isEnabled()) {
+                Log.d("TEST","B D");
+                bluetoothResult.setVisibility(View.INVISIBLE);
+                bluetoothSwitch.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
+    private void bluetoothMultiThreading(){
+        bluetoothManager = getSystemService(BluetoothManager.class);
+        bluetoothAdapter = bluetoothManager.getAdapter();
+        if (bluetoothAdapter == null ) {
+            bluetoothResult.setVisibility(View.INVISIBLE);
+            bluetoothSwitch.setVisibility(View.INVISIBLE);
+        } else if (!bluetoothAdapter.isEnabled()) {
+            bluetoothResult.setVisibility(View.INVISIBLE);
+            bluetoothSwitch.setVisibility(View.INVISIBLE);
+        }
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(receiver, filter);
+
+        Runnable getAndUpdate = () -> {
+            Log.d("TEST", "bluetooth...");
+            String lorem = "abc";
+            UUID MY_UUID = UUID.randomUUID();
+            BluetoothDevice device = null;
+            if (device == null){
+                Log.d("Device Not Found", "The device wasn't found");
+            }else {
+                for (BluetoothDevice devices : foundDevices) {
+                    if (device.getName().equals("SeeedMaster")) {
+                        device = devices;
+                    }
+                    ;
+                }
+
+
+                BluetoothSocket sock = null;
+
+                try {
+                    sock = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    sock.connect();
+                } catch (IOException e) {
+                    Log.d("DEBUG", "Bluetooth socket");
+                    try {
+                        sock.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    throw new RuntimeException(e);
+                }
+
+                byte[] mmBuffer = new byte[4];
+                InputStream instream = null;
+                try {
+                    instream = sock.getInputStream();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    int numBytes = instream.read(mmBuffer);
+                    Log.d("DEBUG READ", "" + mmBuffer);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                byte b = mmBuffer[0];
+            }
+            Log.d("Test", "Test");
+            // Only for testing
+            byte b = (byte) 45;
+            Log.d("TEST", " "+ b);
+            String be = Byte.toString(b);
+
+            mHandler.post(()->{
+                if(bluetoothSwitch.isChecked()) {
+                    bluetoothResult.setText(be);
+                }else {
+                    bluetoothResult.setText("None");
+                }
+            });
+        };
+        ScheduledFuture<?> beeperHandle = mExecutor.scheduleWithFixedDelay(getAndUpdate, 5, 5, SECONDS);
+
+    }
+
+
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        private Context con;
+        {
+            con = MainActivity.this; // or pass a valid Context from the outer class
+            Log.i("TEST", "search started");
+        }
+
+
+        public void onReceive(Context context, Intent intent) {
+            Log.i("TEST", "Device found");
+
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                if (ActivityCompat.checkSelfPermission(con,Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    Log.d("Permission", "not granted");
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                String deviceName = device.getName();
+
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+                Log.d("BlueT", deviceName+ " "+ deviceHardwareAddress);
+                foundDevices.add(device);
+            }
+        }
+    };
 }
