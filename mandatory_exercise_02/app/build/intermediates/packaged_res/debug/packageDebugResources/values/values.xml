@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <dimen name="text_margin">16dp</dimen>
+    <string name="app_name">Lifeify</string>
+    <string name="default_password_hash">0299200cb152e53b0f057d173af0abdf0c38603bd80907408fa9aa27dfbdaa3d</string>
+    <string name="default_user">Gilgamesh</string>
+    <style name="Base.Theme.Lifeify" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.Lifeify" parent="Base.Theme.Lifeify"/>
+</resources>

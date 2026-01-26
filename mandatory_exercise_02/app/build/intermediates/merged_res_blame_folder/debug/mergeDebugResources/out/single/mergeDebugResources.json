@@ -1,0 +1,150 @@
+[
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_back_health.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/back_health.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_back_work.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/back_work.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_icon_v1.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/icon_v1.png"
+    },
+    {
+        "merged": "edu.urv.lifeify.app-debug-38:/layout_activity_objectives.xml.flat",
+        "source": "edu.urv.lifeify.app-main-40:/layout/activity_objectives.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_objectives_item_list.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/objectives_item_list.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_sections_2.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/sections_2.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_section_item.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/section_item.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_sections_item_list.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/sections_item_list.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_background_test.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/background_test.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_activity_main.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_back_social.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/back_social.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_img.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/img.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_background_lifeify.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/background_lifeify.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_button.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/button.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_happy_face.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/happy_face.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_activity_objectives.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/activity_objectives.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/xml_backup_rules.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_objective_item.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/objective_item.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_sections_1.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/sections_1.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_sad_face.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/sad_face.png"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/layout_activity_sections.xml.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/layout/activity_sections.xml"
+    },
+    {
+        "merged": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-debug-38:/drawable_sections_3.png.flat",
+        "source": "/Users/justusvetter/.gradle/daemon/8.13/edu.urv.lifeify.app-main-40:/drawable/sections_3.png"
+    }
+]
