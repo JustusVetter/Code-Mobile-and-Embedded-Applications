@@ -25,3 +25,4 @@
 \contentsline {chapter}{\numberline {5}Exercise 5}{8}{chapter.5}%
 \contentsline {section}{\numberline {5.1}-}{8}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Test the code in the emulator and check if this works, make some screenshots and put in your document to prove.}{8}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Notes}{9}{chapter.6}%
