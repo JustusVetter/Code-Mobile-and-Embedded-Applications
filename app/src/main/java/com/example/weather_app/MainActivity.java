@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,8 +41,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,9 +65,12 @@ public class MainActivity extends AppCompatActivity {
     private Button searchBtn;
 
     // Blouetooth
+
+    BluetoothSocket sock = null;
+    BluetoothDevice device = null;
     BluetoothManager bluetoothManager;
     BluetoothAdapter bluetoothAdapter;
-    private List<BluetoothDevice> foundDevices;
+    private List<BluetoothDevice> foundDevices = new ArrayList<>();
 
     // Multi Threading
     ScheduledExecutorService mExecutor = Executors.newScheduledThreadPool(1);
@@ -308,40 +315,147 @@ public class MainActivity extends AppCompatActivity {
             bluetoothResult.setVisibility(View.INVISIBLE);
             bluetoothSwitch.setVisibility(View.INVISIBLE);
         }
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
+
+
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            registerReceiver(receiver, filter);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Permission", "Permission scan not granted");
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("PERMISSION","Permission ACCESS_FINE_LOCATION not granted" );
+            return;
+        }
+        try {
+
+                bluetoothAdapter.startDiscovery();
+
+
+        } catch (Exception e) {
+            Log.d("FAILED", "DISCOVERY FAILED");
+            throw new RuntimeException(e);
+        }
+
+        //boolean started = bluetoothAdapter.startDiscovery();
+        //Log.d("BT", "Discovery started: " + started);
 
         Runnable getAndUpdate = () -> {
-            Log.d("TEST", "bluetooth...");
-            String lorem = "abc";
-            UUID MY_UUID = UUID.randomUUID();
-            BluetoothDevice device = null;
-            if (device == null){
-                Log.d("Device Not Found", "The device wasn't found");
-            }else {
-                for (BluetoothDevice devices : foundDevices) {
-                    if (device.getName().equals("SeeedMaster")) {
-                        device = devices;
+            byte b = (byte) 6;
+            if(sock == null) {
+                Log.d("TEST", "bluetooth...");
+
+                UUID MY_UUID = UUID.randomUUID();
+
+
+
+                //Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+                try {
+            /*if (pairedDevices.size() > 0) {
+                // There are paired devices. Get the name and address of each paired device.
+                for (BluetoothDevice btdevice : pairedDevices) {
+                    String deviceName = btdevice.getName();
+                    String deviceHardwareAddress = btdevice.getAddress(); // MAC address
+                    if ("SeeedMaster".equals(btdevice.getName())) {
+                        Log.d("SEEED", "SeeedMaster found");
+                        device = btdevice;
+                        Log.i("DEVICE INFO 1", "" + device.getName());
+                        Log.i("DEVICE INFO 3", "" + device.getAddress());
+                        ParcelUuid[] uuids = device.getUuids();
+                        if (uuids != null) {
+                            Log.i("DEVICE INFO 4", "UUIDs: " + Arrays.toString(uuids));
+                            MY_UUID = uuids[0].getUuid();
+                            Log.i("My DEVICE INFO 1", "UUID: " + MY_UUID);
+                        } else {
+                            Log.i("DEVICE INFO 4", "UUIDs: null");
+                        }
+                        if (bluetoothAdapter.isDiscovering()) {
+                            bluetoothAdapter.cancelDiscovery();
+                        }
+
                     }
-                    ;
+                }
+            }*/
+
+                    if (foundDevices.isEmpty()) {
+                        Log.d("Device Not Found", "The device wasn't found");
+                    } else {
+
+                        for (BluetoothDevice fDevice : foundDevices) {
+                            Log.d("DEVICES", "length: " + foundDevices.size());
+                            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                                Log.i("PERMISSION", "Bluetooth Connect Missing");
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                ActivityCompat.requestPermissions(
+                                        this,
+                                        new String[]{Manifest.permission.BLUETOOTH_CONNECT},
+                                        101
+                                );
+                                //return;
+                            }
+                            if ("SeeedMaster".equals(fDevice.getName())) {
+                                Log.d("SEEED", "SeeedMaster found");
+                                device = fDevice;
+                                Log.i("DEVICE INFO 1", "" + device.getName());
+                                Log.i("DEVICE INFO 3", "" + device.getAddress());
+                                ParcelUuid[] uuids = device.getUuids();
+                                if (uuids != null) {
+                                    Log.i("DEVICE INFO 4", "UUIDs: " + Arrays.toString(uuids));
+                                    MY_UUID = uuids[0].getUuid();
+                                    Log.i("My DEVICE INFO 1", "UUID: " + MY_UUID);
+                                } else {
+                                    Log.i("DEVICE INFO 4", "UUIDs: null");
+                                }
+                                if (bluetoothAdapter.isDiscovering()) {
+                                    bluetoothAdapter.cancelDiscovery();
+                                }
+                                //unregisterReceiver(receiver);
+
+                            }
+                        }
+                    }
+                    if (device != null) {
+                        Log.i("DEVICE INFO 2", "device.getName() == null? " + (device.getName() == null));
+                    } else {
+                        Log.i("DEVICE INFO 2", "device is null — SeeedMaster not found");
+                    }
+
+                } catch (Exception e) {
+                    Log.e("RECEIVER ERROR", "Exception in onReceive", e);
                 }
 
 
-                BluetoothSocket sock = null;
-
                 try {
-                    sock = device.createRfcommSocketToServiceRecord(MY_UUID);
+                    Log.i("SOCKET", "starting socket...");
+                    sock = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                    Log.i("SOCKET", "Socket created");
                     sock.connect();
+                    Log.d("SOCKET", "Socket Connected: " + sock.isConnected());
                 } catch (IOException e) {
-                    Log.d("DEBUG", "Bluetooth socket");
+                    Log.d("DEBUG", "Bluetooth socket failed", e);
                     try {
                         sock.close();
                     } catch (IOException ex) {
+                        Log.d("DEBUG", "Bluetooth socket failed to close");
                         throw new RuntimeException(ex);
                     }
                     throw new RuntimeException(e);
                 }
-
+            }
                 byte[] mmBuffer = new byte[4];
                 InputStream instream = null;
                 try {
@@ -355,14 +469,12 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                b = mmBuffer[0];
 
-
-                byte b = mmBuffer[0];
-            }
             Log.d("Test", "Test");
             // Only for testing
-            byte b = (byte) 45;
-            Log.d("TEST", " "+ b);
+            //byte b = (byte) 45;
+            //Log.d("TEST", " "+ b);
             String be = Byte.toString(b);
 
             mHandler.post(()->{
@@ -378,24 +490,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         private Context con;
-        {
-            con = MainActivity.this; // or pass a valid Context from the outer class
-            Log.i("TEST", "search started");
-        }
 
-
+        @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("TEST", "Device found");
+            Log.i("TEST", "Device received");
+            con = context;
 
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Discovery has found a device. Get the BluetoothDevice
                 // object and its info from the Intent.
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                BluetoothDevice recev_device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-                if (ActivityCompat.checkSelfPermission(con,Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
+                if (ActivityCompat.checkSelfPermission(con,Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(con,Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                     Log.d("Permission", "not granted");
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -406,11 +518,12 @@ public class MainActivity extends AppCompatActivity {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                String deviceName = device.getName();
+                assert recev_device != null;
+                String deviceName = recev_device.getName() != null ? recev_device.getName() : "Unknown device";
 
-                String deviceHardwareAddress = device.getAddress(); // MAC address
+                String deviceHardwareAddress = recev_device.getAddress(); // MAC address
                 Log.d("BlueT", deviceName+ " "+ deviceHardwareAddress);
-                foundDevices.add(device);
+                foundDevices.add(recev_device);
             }
         }
     };
