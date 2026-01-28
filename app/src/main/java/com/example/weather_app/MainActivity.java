@@ -469,17 +469,22 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                b = mmBuffer[0];
+
 
             Log.d("Test", "Test");
             // Only for testing
             //byte b = (byte) 45;
             //Log.d("TEST", " "+ b);
-            String be = Byte.toString(b);
 
+            String be = "";
+
+            be= new String(mmBuffer);
+
+
+            String finalBe = be;
             mHandler.post(()->{
                 if(bluetoothSwitch.isChecked()) {
-                    bluetoothResult.setText(be);
+                    bluetoothResult.setText(finalBe);
                 }else {
                     bluetoothResult.setText("None");
                 }
