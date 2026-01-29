@@ -541,6 +541,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             String finalBe = be;
+
+            Log.d("BTSW", ""+bluetoothSwitch.isChecked());
             mHandler.post(()->{
                 if(bluetoothSwitch.isChecked()) {
                     bluetoothResult.setText(finalBe);
