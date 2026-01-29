@@ -3,7 +3,6 @@ package com.example.weather_app;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import android.Manifest;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -32,33 +31,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.bumptech.glide.Glide;
+import com.example.weather_app.WeatherApi;
+import com.example.weather_app.WeatherUpdate;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private Switch bluetoothSwitch;
     private TextInputEditText cityInput;
 
-    private static final String API_KEY = "f70ae9a649de52d2829873e86648c65d";
+    private WeatherApi weatherApi;
+    private WeatherUpdate weatherUi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,152 +125,36 @@ public class MainActivity extends AppCompatActivity {
 
         cityInput = findViewById(R.id.cityInput);
 
+        weatherApi = new WeatherApi(executorService);
+        weatherUi = new WeatherUpdate(
+                city, temperatureValue, windValue, humidityValue, cloudValue,
+                currentWeatherImage,
+                day1, day2, day3, day4, day5,
+                maxDay1, maxDay2, maxDay3, maxDay4, maxDay5,
+                minDay1, minDay2, minDay3, minDay4, minDay5,
+                imageDay1, imageDay2, imageDay3, imageDay4, imageDay5
+        );
+
         // Start Multi Threading for Bluetooth
         bluetoothMultiThreading();
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String city = cityInput.getText().toString();
-                if (!city.isEmpty()){
-                    FetchWeatherData(city);
-                    FetchWeatherNextFiveDays(city);
+                String inputCity = cityInput.getText().toString();
+                if (!inputCity.isEmpty()) {
+                    fetchWeather(inputCity);
                 }
             }
         });
 
-       FetchWeatherData("Tarragona");
-       FetchWeatherNextFiveDays("Tarragona");
+        fetchWeather("Tarragona");
+
     }
 
-     void FetchWeatherData(String city){
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY + "&units=metric";
-        executorService.execute(() ->
-                {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(url).build();
-                    try {
-                        Response response = client.newCall(request).execute();
-                        String result = response.body().string();
-                        runOnUiThread(() -> update(result));
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-        );
-    }
-
-    void FetchWeatherNextFiveDays(String city){
-        String url = "https://api.openweathermap.org/data/2.5/forecast?q="+ city +"&appid=" + API_KEY + "&units=metric";
-        executorService.execute(() ->
-                {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder().url(url).build();
-                    try {
-                        Response response = client.newCall(request).execute();
-                        String result2 = response.body().string();
-                        runOnUiThread(() -> updateFiveDays(result2));
-                    } catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-        );
-    }
-
-    private void update(String result)
-    {
-        if(result != null)
-        {
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                JSONObject main =  jsonObject.getJSONObject("main");
-                JSONObject clouds =  jsonObject.getJSONObject("clouds");
-                double temperature = main.getDouble("temp");
-                double humidity = main.getDouble("humidity");
-                double cloudPercentage = clouds.getDouble("all");
-                double wind= jsonObject.getJSONObject("wind").getDouble("speed");
-                String iconCode = jsonObject.getJSONArray("weather")
-                        .getJSONObject(0)
-                        .getString("icon");
-
-                String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-
-                Glide.with(this)
-                        .load(iconUrl)
-                        .into(currentWeatherImage);
-                city.setText(jsonObject.getString("name"));
-                temperatureValue.setText(String.format("%.0f°", temperature));
-                humidityValue.setText(String.format("%.0f%%", humidity));
-                windValue.setText(String.format("%.0f km/h", wind));
-                cloudValue.setText(String.format("%.0f%%", cloudPercentage));
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void updateFiveDays(String result2) {
-        if (result2 != null) {
-            try {
-                JSONObject jsonObject = new JSONObject(result2);
-                JSONArray list = jsonObject.getJSONArray("list");
-                int[] dayIndices = {0, 8, 16, 24, 32};
-
-                for (int day = 0; day < 5; day++) {
-                    JSONObject item = list.getJSONObject(dayIndices[day]);
-                    JSONObject main = item.getJSONObject("main");
-
-                    long dt = item.getLong("dt");
-                    String dateStr = new SimpleDateFormat("EEE", Locale.getDefault())
-                            .format(new Date(dt * 1000));
-
-                    String iconCode = item.getJSONArray("weather")
-                            .getJSONObject(0)
-                            .getString("icon");
-                    String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
-
-                    switch (day) {
-                        case 0:
-                            Glide.with(this).load(iconUrl).into(imageDay1);
-                            day1.setText(dateStr);
-                            maxDay1.setText(String.format("%.0f°", main.getDouble("temp_max")));
-                            minDay1.setText(String.format("%.0f°", main.getDouble("temp_min")));
-                            break;
-                        case 1:
-                            Glide.with(this).load(iconUrl).into(imageDay2);
-                            day2.setText(dateStr);
-                            maxDay2.setText(String.format("%.0f°", main.getDouble("temp_max")));
-                            minDay2.setText(String.format("%.0f°", main.getDouble("temp_min")));
-                            break;
-                        case 2:
-                            Glide.with(this).load(iconUrl).into(imageDay3);
-                            day3.setText(dateStr);
-                            maxDay3.setText(String.format("%.0f°", main.getDouble("temp_max")));
-                            minDay3.setText(String.format("%.0f°", main.getDouble("temp_min")));
-                            break;
-                        case 3:
-                            Glide.with(this).load(iconUrl).into(imageDay4);
-                            day4.setText(dateStr);
-                            maxDay4.setText(String.format("%.0f°", main.getDouble("temp_max")));
-                            minDay4.setText(String.format("%.0f°", main.getDouble("temp_min")));
-                            break;
-                        case 4:
-                            Glide.with(this).load(iconUrl).into(imageDay5);
-                            day5.setText(dateStr);
-                            maxDay5.setText(String.format("%.0f°", main.getDouble("temp_max")));
-                            minDay5.setText(String.format("%.0f°", main.getDouble("temp_min")));
-                            break;
-                    }
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+    private void fetchWeather(String city) {
+        weatherApi.fetchWeatherData(city, WeatherApi.WeatherType.CURRENT, json -> weatherUi.updateCurrentWeather(json));
+        weatherApi.fetchWeatherData(city, WeatherApi.WeatherType.FORECAST, json -> weatherUi.updateForecast(json));
     }
 
     // INFO: Code is a chimera from multiple manpage sides.
