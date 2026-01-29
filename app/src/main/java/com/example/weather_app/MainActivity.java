@@ -47,6 +47,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import android.location.Geocoder;
+import android.location.Address;
+import java.util.Locale;
+import java.io.IOException;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import android.location.Location;
+
+
 public class MainActivity extends AppCompatActivity {
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -54,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageDay1, imageDay2, imageDay3, imageDay4, imageDay5, currentWeatherImage;
 
     private Button searchBtn;
+
+    private FusedLocationProviderClient fusedLocationClient;
+    private static final int LOCATION_PERMISSION_REQUEST = 1;
+
 
     // Blouetooth
 
@@ -135,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
                 imageDay1, imageDay2, imageDay3, imageDay4, imageDay5
         );
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        requestLocationPermission();
+
+
         // Start Multi Threading for Bluetooth
         bluetoothMultiThreading();
 
@@ -148,13 +167,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fetchWeather("Tarragona");
+
 
     }
 
     private void fetchWeather(String city) {
         weatherApi.fetchWeatherData(city, WeatherApi.WeatherType.CURRENT, json -> weatherUi.updateCurrentWeather(json));
         weatherApi.fetchWeatherData(city, WeatherApi.WeatherType.FORECAST, json -> weatherUi.updateForecast(json));
+    }
+
+    private void requestLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, LOCATION_PERMISSION_REQUEST);
+        } else {
+            getCurrentCity();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentCity();
+            } else {
+                fetchWeather("Tarragona");  // Fallback
+                Toast.makeText(this, "Location permission denied. Using Tarragona.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getCurrentCity() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    String city = getCityFromLocation(location.getLatitude(), location.getLongitude());
+                    fetchWeather(city);
+                } else {
+                    fetchWeather("Tarragona");  // No location fallback
+                }
+            });
+        }
+    }
+
+    private String getCityFromLocation(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            java.util.List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (!addresses.isEmpty()) {
+                return addresses.get(0).getLocality();
+            }
+        } catch (IOException e) {
+            Log.e("Geocoder", "Failed to get city", e);
+        }
+        return "Tarragona";
     }
 
     // INFO: Code is a chimera from multiple manpage sides.
