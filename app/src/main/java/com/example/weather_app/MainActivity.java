@@ -41,10 +41,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -233,8 +237,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject main = item.getJSONObject("main");
 
                     long dt = item.getLong("dt");
-                    String dateStr = new java.text.SimpleDateFormat("EEE", java.util.Locale.getDefault())
-                            .format(new java.util.Date(dt * 1000));
+                    String dateStr = new SimpleDateFormat("EEE", Locale.getDefault())
+                            .format(new Date(dt * 1000));
 
                     String iconCode = item.getJSONArray("weather")
                             .getJSONObject(0)
@@ -317,41 +321,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(receiver, filter);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Permission", "Permission scan not granted");
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("PERMISSION","Permission ACCESS_FINE_LOCATION not granted" );
-            return;
-        }
-        try {
-
-                bluetoothAdapter.startDiscovery();
-
-
-        } catch (Exception e) {
-            Log.d("FAILED", "DISCOVERY FAILED");
-            throw new RuntimeException(e);
-        }
 
         //boolean started = bluetoothAdapter.startDiscovery();
         //Log.d("BT", "Discovery started: " + started);
 
         Runnable getAndUpdate = () -> {
+            Log.d("TESTINGTHESHIT", "bluetooth...");
             byte b = (byte) 6;
             if(sock == null) {
                 Log.d("TEST", "bluetooth...");
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                registerReceiver(receiver, filter);
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    Log.i("Permission", "Permission scan not granted");
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //public void onRequestPermissionsResult(int requestCode, String[] permissions,int[] grantResults);
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Log.i("PERMISSION","Permission ACCESS_FINE_LOCATION not granted" );
+                    return;
+                }
+                try {
+
+                    bluetoothAdapter.startDiscovery();
+
+
+                } catch (Exception e) {
+                    Log.d("FAILED", "DISCOVERY FAILED");
+                    throw new RuntimeException(e);
+                }
 
                 UUID MY_UUID = UUID.randomUUID();
 
@@ -384,13 +389,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }*/
-
-                    if (foundDevices.isEmpty()) {
+                    List<BluetoothDevice> copyDevices = foundDevices;
+                    foundDevices = new ArrayList<>();
+                    if (copyDevices.isEmpty()) {
                         Log.d("Device Not Found", "The device wasn't found");
                     } else {
 
-                        for (BluetoothDevice fDevice : foundDevices) {
-                            Log.d("DEVICES", "length: " + foundDevices.size());
+                        for (BluetoothDevice fDevice : copyDevices) {
+                            Log.d("DEVICES", "length: " + copyDevices.size());
                             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                                 Log.i("PERMISSION", "Bluetooth Connect Missing");
                                 // TODO: Consider calling
@@ -423,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (bluetoothAdapter.isDiscovering()) {
                                     bluetoothAdapter.cancelDiscovery();
                                 }
-                                //unregisterReceiver(receiver);
+                                unregisterReceiver(receiver);
 
                             }
                         }
@@ -441,10 +447,15 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     Log.i("SOCKET", "starting socket...");
-                    sock = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                    if(device!=null) {
+                        sock = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                    }
                     Log.i("SOCKET", "Socket created");
-                    sock.connect();
-                    Log.d("SOCKET", "Socket Connected: " + sock.isConnected());
+                    if(sock!=null) {
+                        sock.connect();
+
+                        Log.d("SOCKET", "Socket Connected: " + sock.isConnected());
+                    }
                 } catch (IOException e) {
                     Log.d("DEBUG", "Bluetooth socket failed", e);
                     try {
@@ -455,30 +466,78 @@ public class MainActivity extends AppCompatActivity {
                     }
                     throw new RuntimeException(e);
                 }
+            }else{
+                Log.d("AdvanceSocket", ""+sock.isConnected());
+
+
             }
-                byte[] mmBuffer = new byte[4];
+            int numBytes =0;
+
+                Log.d("FETCH", "get data");
+                byte[] mmBuffer = new byte[51];
                 InputStream instream = null;
+            if(sock!= null) {
                 try {
                     instream = sock.getInputStream();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 try {
-                    int numBytes = instream.read(mmBuffer);
-                    Log.d("DEBUG READ", "" + mmBuffer);
+                    if (sock.isConnected() && instream != null) {
+                        int totalRead = 0;
+
+                        while (totalRead < 51) {
+                            int n = instream.read(mmBuffer, totalRead, 51 - totalRead);
+                            // Check if connection was removed
+                            if (n == -1) {
+                                throw new IOException("Stream closed before reading 51 bytes");
+
+                            }
+
+                            totalRead += n;
+                        }
+                        numBytes = totalRead;
+
+                        Log.d("DEBUG READ", "" + numBytes);
+
+
+                    }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Log.e("BIGBT", "Connection lost", e);
+                    sock = null;
+                    device = null;
+                    foundDevices = new ArrayList<>();
+                    try {
+                        instream.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+            }
 
 
             Log.d("Test", "Test");
             // Only for testing
             //byte b = (byte) 45;
-            //Log.d("TEST", " "+ b);
 
-            String be = "";
+            String be = "1<tmp>None</tmp>1";
 
-            be= new String(mmBuffer);
+            if(sock!=null) {
+                if (sock.isConnected()) {
+                    be = new String(mmBuffer, 0, numBytes, StandardCharsets.US_ASCII);
+                }
+            }
+            Log.i("DEBUG1", be);
+
+            // get one fully valid xml tag
+
+            int startValidTag=be.indexOf("<tmp>");
+            be = be.substring(startValidTag+5);
+            Log.i("DEBUG2", be);
+            int endValidTag=be.indexOf("</tmp>");
+            be = be.substring(0, endValidTag);
+
+            Log.i("DEBUG3", be);
 
 
             String finalBe = be;
@@ -490,7 +549,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         };
-        ScheduledFuture<?> beeperHandle = mExecutor.scheduleWithFixedDelay(getAndUpdate, 5, 5, SECONDS);
+        ScheduledFuture<?> beeperHandle = mExecutor.scheduleWithFixedDelay(getAndUpdate, 0, 5, SECONDS);
 
     }
 
